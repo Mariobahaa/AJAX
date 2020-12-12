@@ -43,6 +43,12 @@ request.onreadystatechange = function () {
 request.send('');
 
 function addContent(selType, elemType, ind, data, val) {
+    if(val){
+        var tag = document.createElement(elemType);
+        tag.nodeValue = "Please Select";
+        tag.textContent = "Please Select";
+        document.querySelectorAll(selType)[ind].appendChild(tag);
+    }
     //console.log(data);
     for (var itm in data) {
         //console.log(itm.val);
