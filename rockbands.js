@@ -18,16 +18,26 @@ request.onreadystatechange=function(){
             }
             else if(band!=undefined && singer==undefined){
                 var singerNames = [];
-                console.log(body[band]);
-                for(var singer=0;singer< body[band].length;singer++){
+                //console.log(body[band]);
+                for(var s=0;s< body[band].length;s++){
                     //console.log((body[band][singer]).name);
-                    singerNames.push(body[band][singer]["name"]);
+                    singerNames.push(body[band][s]["name"]);
                 }
                 //console.log(singerNames);
                 addContent("select","option",1,singerNames,true);
             }
             else if(band!=undefined && singer!=undefined){
-                //addContent("select","option",1,body[band]);
+                for(var s=0;s< body[band].length;s++){
+                    console.log(s);
+                    if(body[band][s]["name"]==singer){
+                        try{
+                            location.assign(body[band][s]["value"]);
+                        }
+                        catch{
+                            console.error("Singer has no link!");
+                        }
+                    }
+                }
             }
         }
     }
@@ -40,8 +50,8 @@ function addContent(selType,elemType, ind,data,val){
     for(var itm in data){
         //console.log(itm.val);
         var tag = document.createElement(elemType);
-        console.log("itm= "+itm);
-        console.log("data[itm] ="+data[itm]);
+        //console.log("itm= "+itm);
+        //console.log("data[itm] ="+data[itm]);
         tag.nodeValue = !val?itm:data[itm];
         tag.textContent= !val?itm:data[itm];
         document.querySelectorAll(selType)[ind].appendChild(tag);
