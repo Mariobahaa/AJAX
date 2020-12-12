@@ -12,9 +12,9 @@ request.onreadystatechange=function(){
             var body = JSON.parse(request.responseText);
             var band = checkSelection("select",0);
             var singer = checkSelection("select",1);
-            console.log(band,singer);
+            //console.log(band,singer);
             if(band==undefined && singer==undefined){
-                addContent("select","option",0,body);
+                addContent("select","option",0,body,false);
             }
             else if(band!=undefined && singer==undefined){
                 var singerNames = [];
@@ -23,11 +23,11 @@ request.onreadystatechange=function(){
                     //console.log((body[band][singer]).name);
                     singerNames.push(body[band][singer]["name"]);
                 }
-                console.log(singerNames);
-                addContent("select","option",1,singerNames);
+                //console.log(singerNames);
+                addContent("select","option",1,singerNames,true);
             }
             else if(band!=undefined && singer!=undefined){
-                addContent("select","option",1,body[band]);
+                //addContent("select","option",1,body[band]);
             }
         }
     }
@@ -35,13 +35,15 @@ request.onreadystatechange=function(){
 
 request.send('');
 
-function addContent(selType,elemType, ind,data){
+function addContent(selType,elemType, ind,data,val){
     //console.log(data);
     for(var itm in data){
         //console.log(itm.val);
         var tag = document.createElement(elemType);
-        tag.nodeValue = itm;
-        tag.textContent= itm;
+        console.log("itm= "+itm);
+        console.log("data[itm] ="+data[itm]);
+        tag.nodeValue = !val?itm:data[itm];
+        tag.textContent= !val?itm:data[itm];
         document.querySelectorAll(selType)[ind].appendChild(tag);
         if(selType=="select"){
             try{
@@ -57,7 +59,7 @@ function addContent(selType,elemType, ind,data){
 function checkSelection(selType, ind){
     for(var i=0;i< document.querySelectorAll(selType)[ind].children.length;i++){
         if(document.querySelectorAll(selType)[ind].children[i].selected == true){
-            console.log(document.querySelectorAll(selType)[ind].children[i].value);
+            //console.log(document.querySelectorAll(selType)[ind].children[i].value);
             return document.querySelectorAll(selType)[ind].children[i].value;
         }
     }
